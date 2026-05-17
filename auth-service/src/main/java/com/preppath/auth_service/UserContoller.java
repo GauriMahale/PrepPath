@@ -4,14 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import main.java.com.preppath.auth_service.UserService;
-
 @RestController
 @RequestMapping("/users")
-public class UserContoller {
-
-    @Autowired
-    private UserRepo userRepo;
+public class UserContoller {    
 
     @Autowired
     private UserService userService;
@@ -27,8 +22,22 @@ public class UserContoller {
     }
 
     @GetMapping("/getAllUsers")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<Iterable<User>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    
+    @PostMapping("/login")
+    public ResponseEntity<User> loginUser(@RequestParam String email,
+                                          @RequestParam String password) {
+
+        User loggedInUser = userService.login(email, password);
+
+        if (loggedInUser != null) {
+            return ResponseEntity.ok(loggedInUser);
+        }
+
+        return ResponseEntity.status(401).body(null);
     }
 
 }

@@ -1,6 +1,7 @@
-package main.java.com.preppath.auth_service;
+package com.preppath.auth_service;
 
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,13 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    
-    
+    public User login(String email, String password) {
+        User user = userRepo.findByEmail(email);
+
+        if (user != null && Objects.equals(user.getPassword(), password)) {
+            return user;
+        }
+
+        return null;
+    }
 }

@@ -13,7 +13,10 @@ public class User {
     private Long id;
 
     private String name;
+    
+    @jakarta.persistence.Column(unique = true)
     private String email;
+    
     private String password;
     private String mobile;
     private int experience;
